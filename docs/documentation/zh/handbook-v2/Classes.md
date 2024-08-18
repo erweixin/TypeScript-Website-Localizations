@@ -1,17 +1,17 @@
 ---
-title: Classes
+title: 类
 layout: docs
 permalink: /zh/docs/handbook/2/classes.html
-oneline: "How classes work in TypeScript"
+oneline: “TypeScript 中的类是如何工作”
 ---
 
 <blockquote class='bg-reading'>
-  <p>Background Reading:<br /><a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes'>Classes (MDN)</a></p>
+  <p>背景阅读:<br /><a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes'>Classes (MDN)</a></p>
 </blockquote>
 
-TypeScript offers full support for the `class` keyword introduced in ES2015.
+TypeScript 完全支持 ES2015 中引入的“class”关键字。
 
-As with other JavaScript language features, TypeScript adds type annotations and other syntax to allow you to express relationships between classes and other types.
+与其他 JavaScript 语言功能一样，TypeScript 添加了类型注释和其他语法，以允许您表达类和其他类型之间的关系。
 
 ## Class Members
 
