@@ -1,38 +1,38 @@
 ---
-title: TypeScript for JavaScript Programmers
-short: TypeScript for JS Programmers
+title: 给 JavaScript 程序员的 TypeScript 入门指南
+short: 给 JavaScript 程序员的 TypeScript 入门指南
 layout: docs
 permalink: /zh/docs/handbook/typescript-in-5-minutes.html
-oneline: Learn how TypeScript extends JavaScript
+oneline: 了解 TypeScript 如何扩展 JavaScript
 ---
 
-TypeScript stands in an unusual relationship to JavaScript. TypeScript offers all of JavaScript's features, and an additional layer on top of these: TypeScript's type system.
+TypeScript 与 JavaScript 有着一种特别的关系。TypeScript 提供了 JavaScript 所有的功能，并在此基础上增加了新的功能：TypeScript 的类型系统。
 
-For example, JavaScript provides language primitives like `string` and `number`, but it doesn't check that you've consistently assigned these. TypeScript does.
+例如，JavaScript 提供了 string 和 number 这样的语言基础类型，但它不会检查你是否正确的使用这些类型。而 TypeScript 会进行这种检查。
 
-This means that your existing working JavaScript code is also TypeScript code. The main benefit of TypeScript is that it can highlight unexpected behavior in your code, lowering the chance of bugs.
+这意味着你现有的 JavaScript 代码也是合法的 TypeScript 代码。TypeScript 的主要优点在于，它可以发现代码中的意外行为，从而降低 bug 出现的几率。
 
-This tutorial provides a brief overview of TypeScript, focusing on its type system.
+本教程简要概述了 TypeScript，重点介绍其类型系统。
 
-## Types by Inference
+## 通过推断确定类型
 
-TypeScript knows the JavaScript language and will generate types for you in many cases.
-For example in creating a variable and assigning it to a particular value, TypeScript will use the value as its type.
+TypeScript 了解 JavaScript 语言，并且在许多情况下会为你生成类型。
+例如，当创建一个变量并赋值给它时，TypeScript 会将根据值确定变量的类型。
 
 ```ts twoslash
 let helloWorld = "Hello World";
 //  ^?
 ```
 
-By understanding how JavaScript works, TypeScript can build a type-system that accepts JavaScript code but has types. This offers a type-system without needing to add extra characters to make types explicit in your code. That's how TypeScript knows that `helloWorld` is a `string` in the above example.
+通过理解 JavaScript 的工作原理，TypeScript 构建了一种类型系统，该系统能够接受 JavaScript 代码并添加类型。这种类型系统不需要在代码中额外添加字符来显式声明类型。就像上面的例子，TypeScript 知道 `helloWorld` 是一个 `string`。
 
-You may have written JavaScript in Visual Studio Code, and had editor auto-completion. Visual Studio Code uses TypeScript under the hood to make it easier to work with JavaScript.
+你可能在 Visual Studio Code 中编写过 JavaScript，并且使用了编辑器的自动补全功能。Visual Studio Code 在背后使用 TypeScript 来使得编写 JavaScript 变得更加轻松。
 
-## Defining Types
+## 定义类型
 
-You can use a wide variety of design patterns in JavaScript. However, some design patterns make it difficult for types to be inferred automatically (for example, patterns that use dynamic programming). To cover these cases, TypeScript supports an extension of the JavaScript language, which offers places for you to tell TypeScript what the types should be.
+你可以在 JavaScript 中使用各种各样的设计模式。然而，有些设计模式使得类型的自动推断变得困难（例如，使用动态编程的模式）。为了覆盖这些情况，TypeScript 通过扩展 JavaScript 来确定类型。
 
-For example, to create an object with an inferred type which includes `name: string` and `id: number`, you can write:
+例如，为了创建一个包含 `name: string` 和 `id: number` 的推断类型，你可以这样编写：
 
 ```ts twoslash
 const user = {
@@ -41,7 +41,7 @@ const user = {
 };
 ```
 
-You can explicitly describe this object's shape using an `interface` declaration:
+你可以使用 `interface` 声明来明确地描述这个对象的结构：
 
 ```ts twoslash
 interface User {
@@ -50,7 +50,7 @@ interface User {
 }
 ```
 
-You can then declare that a JavaScript object conforms to the shape of your new `interface` by using syntax like `: TypeName` after a variable declaration:
+然后，你可以通过在变量声明后使用 `:TypeName` 的语法来声明一个 JavaScript 对象符合你新的 `interface` ：
 
 ```ts twoslash
 interface User {
@@ -64,7 +64,7 @@ const user: User = {
 };
 ```
 
-If you provide an object that doesn't match the interface you have provided, TypeScript will warn you:
+如果你提供的对象与你定义的 `interface` 不匹配，TypeScript会给你警告：
 
 ```ts twoslash
 // @errors: 2322
@@ -79,7 +79,7 @@ const user: User = {
 };
 ```
 
-Since JavaScript supports classes and object-oriented programming, so does TypeScript. You can use an interface declaration with classes:
+由于JavaScript支持类和面向对象编程，因此TypeScript也支持。你可以在类中使用 `interface` 声明：
 
 ```ts twoslash
 interface User {
@@ -100,7 +100,7 @@ class UserAccount {
 const user: User = new UserAccount("Murphy", 1);
 ```
 
-You can use interfaces to annotate parameters and return values to functions:
+你可以用 `interface` 来注解函数的参数和返回值：
 
 ```ts twoslash
 // @noErrors
@@ -118,25 +118,25 @@ function getAdminUser(): User {
 }
 ```
 
-There is already a small set of primitive types available in JavaScript: `boolean`, `bigint`, `null`, `number`, `string`, `symbol`, and `undefined`, which you can use in an interface. TypeScript extends this list with a few more, such as `any` (allow anything), [`unknown`](/play#example/unknown-and-never) (ensure someone using this type declares what the type is), [`never`](/play#example/unknown-and-never) (it's not possible that this type could happen), and `void` (a function which returns `undefined` or has no return value).
+在 JavaScript 中，我们已经有了一小部分原始类型供使用：`boolean`, `bigint`, `null`, `number`, `string`, `symbol`, 以及 `undefined`，你可以在接口中使用它们。TypeScript 对这个列表进行了扩展，增加了一些新类型，例如 `any`（可以是任何类型），[`unknown`](/zh/play#example/unknown-and-never)（确保使用此类型的人明确声明了类型是什么），[`never`](/zh/play#example/unknown-and-never)（此类型永不可能发生），以及 `void`（一个返回 undefined 或者没有返回值的函数）。
 
-You'll see that there are two syntaxes for building types: [Interfaces and Types](/play/?e=83#example/types-vs-interfaces). You should prefer `interface`. Use `type` when you need specific features.
+你会发现有两种语法结构用来构建类型：[接口和类型](/zh/play/?e=83#example/types-vs-interfaces)。你应当优先考虑使用 `interface`。在你需要特定功能时，才用 `type`。
 
-## Composing Types
+## 组合类型
 
-With TypeScript, you can create complex types by combining simple ones. There are two popular ways to do so: with unions, and with generics.
+使用 TypeScript，你可以通过组合简单的类型来创建复杂的类型。有两个常见的方法可以实现：联合类型（Unions）和泛型（Generics）。
 
-### Unions
+### 联合类型（Unions）
 
-With a union, you can declare that a type could be one of many types. For example, you can describe a `boolean` type as being either `true` or `false`:
+通过联合类型，你可以声明一个类型可能是多种类型中的一种。例如，你可以描述 boolean 类型，它可以是 true 或 false：
 
 ```ts twoslash
 type MyBool = true | false;
 ```
 
-_Note:_ If you hover over `MyBool` above, you'll see that it is classed as `boolean`. That's a property of the Structural Type System. More on this below.
+_注意：_如果你把鼠标悬停在上面的 MyBool 上，你会看到它被归类为 boolean。这是结构化类型系统的一个属性。下文会有更多的介绍。
 
-A popular use-case for union types is to describe the set of `string` or `number` [literals](/docs/handbook/2/everyday-types.html#literal-types) that a value is allowed to be:
+联合类型的一个常见应用是描述一种值被允许的 `string` 或 `number` [字面量](/zh/docs/handbook/2/everyday-types.html#literal-types)集合：
 
 ```ts twoslash
 type WindowStates = "open" | "closed" | "minimized";
@@ -144,7 +144,7 @@ type LockStates = "locked" | "unlocked";
 type PositiveOddNumbersUnderTen = 1 | 3 | 5 | 7 | 9;
 ```
 
-Unions provide a way to handle different types too. For example, you may have a function that takes an `array` or a `string`:
+联合类型也提供了处理不同类型的方式。例如，你可能有一个函数，它接受一个 `array` 或者一个 `string`：
 
 ```ts twoslash
 function getLength(obj: string | string[]) {
@@ -152,7 +152,7 @@ function getLength(obj: string | string[]) {
 }
 ```
 
-To learn the type of a variable, use `typeof`:
+要了解变量的类型，可以使用 `typeof`：
 
 | Type      | Predicate                          |
 | --------- | ---------------------------------- |
@@ -163,7 +163,7 @@ To learn the type of a variable, use `typeof`:
 | function  | `typeof f === "function"`          |
 | array     | `Array.isArray(a)`                 |
 
-For example, you can make a function return different values depending on whether it is passed a string or an array:
+例如，你可以编写一个函数，根据传入的是字符串还是数组返回不同的值：
 
 <!-- prettier-ignore -->
 ```ts twoslash
@@ -176,9 +176,9 @@ function wrapInArray(obj: string | string[]) {
 }
 ```
 
-### Generics
+### 范性（Generics）
 
-Generics provide variables to types. A common example is an array. An array without generics could contain anything. An array with generics can describe the values that the array contains.
+泛型为类型提供变量。一个常见的例子是数组。一个没有泛型的数组可以包含任何东西。一个带有泛型的数组可以描述数组所包含的值。
 
 ```ts
 type StringArray = Array<string>;
@@ -186,7 +186,7 @@ type NumberArray = Array<number>;
 type ObjectWithNameArray = Array<{ name: string }>;
 ```
 
-You can declare your own types that use generics:
+你可以声明使用泛型的自定义类型：
 
 ```ts twoslash
 // @errors: 2345
@@ -195,22 +195,22 @@ interface Backpack<Type> {
   get: () => Type;
 }
 
-// This line is a shortcut to tell TypeScript there is a
-// constant called `backpack`, and to not worry about where it came from.
+// 这行代码告诉 TypeScript 存在一个名为 backpack 的常量，该变量的类型是 Backpack<string>
+
 declare const backpack: Backpack<string>;
 
-// object is a string, because we declared it above as the variable part of Backpack.
+// object 是一个字符串，因为我们之前在 Backpack 中声明了 get 返回值的类型。
 const object = backpack.get();
 
-// Since the backpack variable is a string, you can't pass a number to the add function.
+// 由于 backpack.add 的参数类型是字符串，所以你不能把一个数字传递给 add 函数。
 backpack.add(23);
 ```
 
-## Structural Type System
+## 结构化类型系统
 
-One of TypeScript's core principles is that type checking focuses on the _shape_ that values have. This is sometimes called "duck typing" or "structural typing".
+TypeScript 的核心原则之一就是类型检查注重值的 _"结构"_ 。这种方式有时被称为 "鸭子类型(duck typing)" 或 "结构化类型(structural typing)"。
 
-In a structural type system, if two objects have the same shape, they are considered to be of the same type.
+在结构化类型系统中，如果两个对象有相同的结构，那么他们就被认为是同一类型。
 
 ```ts twoslash
 interface Point {
@@ -227,9 +227,9 @@ const point = { x: 12, y: 26 };
 logPoint(point);
 ```
 
-The `point` variable is never declared to be a `Point` type. However, TypeScript compares the shape of `point` to the shape of `Point` in the type-check. They have the same shape, so the code passes.
+`point` 变量从未被声明为 `Point` 类型。然而，在类型检查中，TypeScript 会比较 point 的结构和 Point 的结构。由于它们的结构相同，因此代码通过了。
 
-The shape-matching only requires a subset of the object's fields to match.
+只需要对象的部分字段匹配，这个结构匹配就能进行。
 
 ```ts twoslash
 // @errors: 2345
@@ -252,7 +252,7 @@ const color = { hex: "#187ABF" };
 logPoint(color);
 ```
 
-There is no difference between how classes and objects conform to shapes:
+类和对象的结构匹配类似：
 
 ```ts twoslash
 // @errors: 2345
@@ -279,11 +279,11 @@ const newVPoint = new VirtualPoint(13, 56);
 logPoint(newVPoint); // logs "13, 56"
 ```
 
-If the object or class has all the required properties, TypeScript will say they match, regardless of the implementation details.
+如果对象或类拥有所有必需的属性，无论实现细节如何，TypeScript 都会认为它们匹配。
 
-## Next Steps
+## 下一步
 
-This was a brief overview of the syntax and tools used in everyday TypeScript. From here, you can:
+这是对日常 TypeScript 中使用的语法和工具的简要概述。参见：
 
-- Read the full Handbook [from start to finish](/docs/handbook/intro.html)
-- Explore the [Playground examples](/play#show-examples)
+- 阅读完整手册 [from start to finish](/zh/docs/handbook/intro.html)
+- 探索 [Playground 示例](/zh/play#show-examples)

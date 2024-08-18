@@ -1,58 +1,60 @@
 ---
-title: TypeScript for Java/C# Programmers
-short: TS for Java/C# Programmers
+title: 给 Java/C# 程序员的 TypeScript 入门指南
+short: 给 Java/C# 程序员的 TypeScript 入门指南
 layout: docs
 permalink: /zh/docs/handbook/typescript-in-5-minutes-oop.html
 oneline: Learn TypeScript if you have a background in object-oriented languages
 ---
 
-TypeScript is a popular choice for programmers accustomed to other languages with static typing, such as C# and Java.
+习惯使用静态类型语言（如 C# 和 Java）的程序员常常会选择 TypeScript。
 
-TypeScript's type system offers many of the same benefits, such as better code completion, earlier detection of errors, and clearer communication between parts of your program.
-While TypeScript provides many familiar features for these developers, it's worth stepping back to see how JavaScript (and therefore TypeScript) differ from traditional OOP languages.
-Understanding these differences will help you write better JavaScript code, and avoid common pitfalls that programmers who go straight from C#/Java to TypeScript may fall into.
+TypeScript 的类型系统带来了许多相同的优点，例如更好的代码补全，更早发现错误，以及程序各部分间更清晰的调用等等。
+尽管 TypeScript 为这些开发者提供了许多熟悉的功能，但还是值得退后一步看看 JavaScript（以及因此而产生的 TypeScript）与传统的面向对象编程语言有何不同。
+理解这些差异将有助于你编写更好的 JavaScript 代码，并规避从 C#/Java 切换到 TypeScript 的常见误区。
 
-## Co-learning JavaScript
+## 学习 JavaScript
 
-If you're familiar with JavaScript already but are primarily a Java or C# programmer, this introductory page can help explain some of the common misconceptions and pitfalls you might be susceptible to.
-Some of the ways that TypeScript models types are quite different from Java or C#, and it's important to keep these in mind when learning TypeScript.
+如果你已经熟悉 JavaScript，但主要是使用 Java 或 C# 进行编程，那么这个入门页面将有助于解释一些你可能容易误解和陷入的问题。
+TypeScript 对类型的模型化方式与 Java 或 C# 有很大的不同，所以在学习 TypeScript 时，请记住这些不同之处。
 
-If you're a Java or C# programmer that is new to JavaScript in general, we recommend learning a little bit of JavaScript _without_ types first to understand JavaScript's runtime behaviors.
-Because TypeScript doesn't change how your code _runs_, you'll still have to learn how JavaScript works in order to write code that actually does something!
+如果你是 Java 或 C# 程序员，对 JavaScript 基本上还是新手，我们推荐你先学习一点点 _无_ 类型的 JavaScript，以理解 JavaScript 的运行时行为。
+因为 TypeScript 并不改变你的代码的 _运行方式_，所以你还是得学习 JavaScript 的工作原理，才能编写真正有实际效果的代码！
 
-It's important to remember that TypeScript uses the same _runtime_ as JavaScript, so any resources about how to accomplish specific runtime behavior (converting a string to a number, displaying an alert, writing a file to disk, etc.) will always apply equally well to TypeScript programs.
-Don't limit yourself to TypeScript-specific resources!
+记住，TypeScript 使用的是和 JavaScript 相同的_运行时_，所以任何关于如何实现特定运行时行为的资源（如将字符串转换为数字，显示警告，将文件写入到磁盘等等）都同样适用于 TypeScript 程序。
+不要仅限于只使用针对 TypeScript 的学习资源！
 
-## Rethinking the Class
+## 重新审视 Class
 
-C# and Java are what we might call _mandatory OOP_ languages.
-In these languages, the _class_ is the basic unit of code organization, and also the basic container of all data _and_ behavior at runtime.
-Forcing all functionality and data to be held in classes can be a good domain model for some problems, but not every domain _needs_ to be represented this way.
+C# 和 Java 是我们所称的 _强制 OOP_ 语言。
+在这些语言中，class 是代码组织的基本单位，同时也是运行时所有数据 _和_ 行为的基本容器。
+强制所有的功能和数据都要放在类中，可能是解决某些问题的好模型，但并不是每个领域 _都需要_ 用这种方式来表示。
 
-### Free Functions and Data
+### 自由的函数和数据
 
-In JavaScript, functions can live anywhere, and data can be passed around freely without being inside a pre-defined `class` or `struct`.
-This flexibility is extremely powerful.
-"Free" functions (those not associated with a class) working over data without an implied OOP hierarchy tend to be the preferred model for writing programs in JavaScript.
+在 JavaScript 中，函数可以生存于任何地方，数据可以自由地传递，而不需要被包含在预先定义的 `class` 或 `struct` 中。
+这种灵活性是极其有力的。
+"自由"的函数（那些与类无关的函数）会在没有隐含的 OOP 层次结构的情况下处理数据，这倾向于成为编写 JavaScript 程序的首选模型。
 
-### Static Classes
+### 静态类
 
-Additionally, certain constructs from C# and Java such as singletons and static classes are unnecessary in TypeScript.
+此外，C# 和 Java 中的一些构造，如单例和静态类，在 TypeScript 中并不需要。
 
-## OOP in TypeScript
+## 在 TypeScript 中的 OOP
 
-That said, you can still use classes if you like!
-Some problems are well-suited to being solved by a traditional OOP hierarchy, and TypeScript's support for JavaScript classes will make these models even more powerful.
-TypeScript supports many common patterns such as implementing interfaces, inheritance, and static methods.
+话又说回来，如果你喜欢的话，你仍然可以使用类！
+一些问题很适合用传统的 OOP 层次结构来解决，而 TypeScript 对 JavaScript 类的支持则会使这些模型更加强大。
+TypeScript 支持许多常见的模式，如实现接口，继承，以及静态方法。
 
-We'll cover classes later in this guide.
+我们会在本指南后面的章节中讲解类。
 
-## Rethinking Types
+## 重新思考类型
 
-TypeScript's understanding of a _type_ is actually quite different from C# or Java's.
-Let's explore some differences.
+TypeScript 对 _类型_ 的理解实际上与 C# 或 Java 非常不同。
+我们来探讨一些差异。
 
-### Nominal Reified Type Systems
+
+
+### 固定化的名义化类型系统
 
 In C# or Java, any given value or object has one exact type - either `null`, a primitive, or a known class type.
 We can call methods like `value.GetType()` or `value.getClass()` to query the exact type at runtime.

@@ -1,6 +1,6 @@
 ---
-title: TypeScript for Functional Programmers
-short: TS for Functional Programmers
+title: 给函数式编程程序员的 TypeScript 入门指南
+short: 给函数式编程程序员的 TypeScript 入门指南
 layout: docs
 permalink: /zh/docs/handbook/typescript-in-5-minutes-func.html
 oneline: Learn TypeScript if you have a background in functional programming
