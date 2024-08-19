@@ -4,7 +4,7 @@ layout: docs
 permalink: /zh/docs/handbook/2/basic-types.html
 oneline: "学习 TypeScript 的第一步：基本类型。"
 preamble: >
-  <p>欢迎来到手册的第一页。如果这是您首次接触 TypeScript，不妨先从 '<a href='https://www.typescriptlang.org/docs/handbook/intro.html#get-started'>入门</a>' 指南开始。</p>
+  <p>欢迎来到手册的第一页。如果这是您首次接触 TypeScript，不妨先从 '<a href='https://www.doc.tslang.org/zh/docs/handbook/intro.html#get-started'>入门</a>' 指南开始。</p>
 ---
 
 JavaScript 中的每个值会随着我们操作的不同表现出一系列的行为。
