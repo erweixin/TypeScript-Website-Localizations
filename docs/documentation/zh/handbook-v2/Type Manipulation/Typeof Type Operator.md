@@ -1,20 +1,20 @@
 ---
-title: Typeof Type Operator
+title: Typeof 类型操作符
 layout: docs
 permalink: /zh/docs/handbook/2/typeof-types.html
-oneline: "Using the typeof operator in type contexts."
+oneline: "在类型上下文中使用 typeof 操作符。"
 ---
 
-## The `typeof` type operator
+## `typeof` 类型操作符
 
-JavaScript already has a `typeof` operator you can use in an _expression_ context:
+JavaScript 已经有一个 `typeof` 操作符，你可以在 _表达式_ 上下文中使用它：
 
 ```ts twoslash
 // Prints "string"
 console.log(typeof "Hello world");
 ```
 
-TypeScript adds a `typeof` operator you can use in a _type_ context to refer to the _type_ of a variable or property:
+TypeScript 增加了一个可以在类型上下文中使用的 `typeof` 操作符，用于引用变量或属性的 _类型_：
 
 ```ts twoslash
 let s = "hello";
@@ -22,9 +22,9 @@ let n: typeof s;
 //  ^?
 ```
 
-This isn't very useful for basic types, but combined with other type operators, you can use `typeof` to conveniently express many patterns.
-For an example, let's start by looking at the predefined type `ReturnType<T>`.
-It takes a _function type_ and produces its return type:
+对于基本类型来说，这并不是很有用，但是当与其他类型操作符结合使用时，`typeof` 可以方便地表达许多模式。
+举个例子，让我们先看看预定义的类型 `ReturnType<T>`。
+它接受一个 _函数类型_，并生成其返回类型：
 
 ```ts twoslash
 type Predicate = (x: unknown) => boolean;
@@ -32,7 +32,7 @@ type K = ReturnType<Predicate>;
 //   ^?
 ```
 
-If we try to use `ReturnType` on a function name, we see an instructive error:
+如果我们尝试对函数名使用 `ReturnType`，我们会看到一个有启发性的错误：
 
 ```ts twoslash
 // @errors: 2749
@@ -42,8 +42,8 @@ function f() {
 type P = ReturnType<f>;
 ```
 
-Remember that _values_ and _types_ aren't the same thing.
-To refer to the _type_ that the _value `f`_ has, we use `typeof`:
+请记住，_值_ 和 _类型_ 不是同一回事。
+要引用_值_ `f` 的 _类型_，我们使用 `typeof`：
 
 ```ts twoslash
 function f() {
@@ -53,18 +53,18 @@ type P = ReturnType<typeof f>;
 //   ^?
 ```
 
-### Limitations
+### 限制
 
-TypeScript intentionally limits the sorts of expressions you can use `typeof` on.
+TypeScript 有意限制了你可以对哪些表达式使用 `typeof`。
 
-Specifically, it's only legal to use `typeof` on identifiers (i.e. variable names) or their properties.
-This helps avoid the confusing trap of writing code you think is executing, but isn't:
+具体来说，`typeof` 只能合法地用于标识符（即变量名）或它们的属性。
+这有助于避免一个容易混淆的陷阱，即你以为正在执行的代码实际上并没有执行：
 
 ```ts twoslash
 // @errors: 1005
 declare const msgbox: (prompt: string) => boolean;
 // type msgbox = any;
 // ---cut---
-// Meant to use = ReturnType<typeof msgbox>
+// 本意是使用 = ReturnType<typeof msgbox>
 let shouldContinue: typeof msgbox("Are you sure you want to continue?");
 ```

@@ -1,13 +1,13 @@
 ---
-title: Conditional Types
+title: 条件类型
 layout: docs
 permalink: /zh/docs/handbook/2/conditional-types.html
-oneline: "Create types which act like if statements in the type system."
+oneline: "创建在类型系统中如同 if 语句一样工作的类型。"
 ---
 
-At the heart of most useful programs, we have to make decisions based on input.
-JavaScript programs are no different, but given the fact that values can be easily introspected, those decisions are also based on the types of the inputs.
-_Conditional types_ help describe the relation between the types of inputs and outputs.
+在大多数有用的程序核心中，我们需要基于输入做出决策。
+JavaScript 程序也不例外，但考虑到可以轻松检查值的类型，这些决策也基于输入的类型。
+_条件类型_ 有助于描述输入类型和输出类型之间的关系。
 
 ```ts twoslash
 interface Animal {
@@ -24,7 +24,7 @@ type Example2 = RegExp extends Animal ? number : string;
 //   ^?
 ```
 
-Conditional types take a form that looks a little like conditional expressions (`condition ? trueExpression : falseExpression`) in JavaScript:
+条件类型的形式看起来有点像 JavaScript 中的条件表达式（`condition ? trueExpression : falseExpression`）：
 
 ```ts twoslash
 type SomeType = any;
@@ -36,12 +36,12 @@ type Stuff =
   SomeType extends OtherType ? TrueType : FalseType;
 ```
 
-When the type on the left of the `extends` is assignable to the one on the right, then you'll get the type in the first branch (the "true" branch); otherwise you'll get the type in the latter branch (the "false" branch).
+当 `extends` 左侧的类型可以赋值给右侧的类型时，你会得到第一个分支中的类型（"true" 分支）；否则你会得到后一个分支中的类型（"false" 分支）。
 
-From the examples above, conditional types might not immediately seem useful - we can tell ourselves whether or not `Dog extends Animal` and pick `number` or `string`!
-But the power of conditional types comes from using them with generics.
+从上面的例子中，条件类型可能看起来并不立即有用 —— 我们可以自己判断 `Dog extends Animal` 是否成立，然后选择 `number` 或 `string`！
+但条件类型的强大之处在于将它们与泛型一起使用。
 
-For example, let's take the following `createLabel` function:
+例如，让我们看看下面的 `createLabel` 函数：
 
 ```ts twoslash
 interface IdLabel {
@@ -59,12 +59,12 @@ function createLabel(nameOrId: string | number): IdLabel | NameLabel {
 }
 ```
 
-These overloads for createLabel describe a single JavaScript function that makes a choice based on the types of its inputs. Note a few things:
+这些 `createLabel` 的重载描述了一个单一的 JavaScript 函数，它根据输入的类型做出选择。注意以下几点：
 
-1. If a library has to make the same sort of choice over and over throughout its API, this becomes cumbersome.
-2. We have to create three overloads: one for each case when we're _sure_ of the type (one for `string` and one for `number`), and one for the most general case (taking a `string | number`). For every new type `createLabel` can handle, the number of overloads grows exponentially.
+1. 如果一个库需要在其整个 API 中反复做出同样的选择，这会变得很麻烦。
+2. 我们必须创建三个重载：两个用于我们确定类型的情况（一个用于 `string`，一个用于 `number`），还有一个用于最一般的情况（接受 `string | number`）。对于 createLabel 可以处理的每一个新类型，重载的数量都会呈指数增长。
 
-Instead, we can encode that logic in a conditional type:
+相反，我们可以将这种逻辑编码到一个条件类型中：
 
 ```ts twoslash
 interface IdLabel {
@@ -79,7 +79,7 @@ type NameOrId<T extends number | string> = T extends number
   : NameLabel;
 ```
 
-We can then use that conditional type to simplify our overloads down to a single function with no overloads.
+然后我们可以使用这个条件类型来简化我们的重载，将其减少为一个没有重载的单一函数。
 
 ```ts twoslash
 interface IdLabel {
@@ -106,20 +106,20 @@ let c = createLabel(Math.random() ? "hello" : 42);
 //  ^?
 ```
 
-### Conditional Type Constraints
+### 条件类型约束
 
-Often, the checks in a conditional type will provide us with some new information.
-Just like narrowing with type guards can give us a more specific type, the true branch of a conditional type will further constrain generics by the type we check against.
+通常，条件类型中的检查会为我们提供一些新信息。
+就像使用类型守卫进行类型收窄可以给我们更具体的类型一样，条件类型的 true 分支会通过我们检查的类型进一步约束泛型。
 
-For example, let's take the following:
+例如，让我们看看下面的例子：
 
 ```ts twoslash
 // @errors: 2536
 type MessageOf<T> = T["message"];
 ```
 
-In this example, TypeScript errors because `T` isn't known to have a property called `message`.
-We could constrain `T`, and TypeScript would no longer complain:
+在这个例子中，TypeScript 报错是因为 `T` 不知道是否有一个叫做 `message` 的属性。
+我们可以约束 `T`，这样 TypeScript 就不会再抱怨：
 
 ```ts twoslash
 type MessageOf<T extends { message: unknown }> = T["message"];
@@ -132,8 +132,8 @@ type EmailMessageContents = MessageOf<Email>;
 //   ^?
 ```
 
-However, what if we wanted `MessageOf` to take any type, and default to something like `never` if a `message` property isn't available?
-We can do this by moving the constraint out and introducing a conditional type:
+然而，如果我们想让 `MessageOf` 接受任何类型，并在没有 `message` 属性时默认为类似 `never` 的东西呢？
+我们可以通过将约束移出并引入一个条件类型来做到这一点：
 
 ```ts twoslash
 type MessageOf<T> = T extends { message: unknown } ? T["message"] : never;
@@ -153,9 +153,9 @@ type DogMessageContents = MessageOf<Dog>;
 //   ^?
 ```
 
-Within the true branch, TypeScript knows that `T` _will_ have a `message` property.
+在 true 分支中，TypeScript 知道 `T` 将有一个 `message` 属性。
 
-As another example, we could also write a type called `Flatten` that flattens array types to their element types, but leaves them alone otherwise:
+作为另一个例子，我们也可以写一个叫做 `Flatten` 的类型，它可以将数组类型平铺成它们的元素类型，但对其他类型则保持不变：
 
 ```ts twoslash
 type Flatten<T> = T extends any[] ? T[number] : T;
@@ -169,26 +169,26 @@ type Num = Flatten<number>;
 //   ^?
 ```
 
-When `Flatten` is given an array type, it uses an indexed access with `number` to fetch out `string[]`'s element type.
-Otherwise, it just returns the type it was given.
+当 `Flatten` 被给定一个数组类型时，它使用带有 `number` 的索引访问来获取 `string[]` 的元素类型。
+否则，它只是返回给定的类型。
 
-### Inferring Within Conditional Types
+### 在条件类型中进行推断
 
-We just found ourselves using conditional types to apply constraints and then extract out types.
-This ends up being such a common operation that conditional types make it easier.
+我们刚刚发现自己使用条件类型来应用约束，然后提取出类型。
+这最终成为一个如此常见的操作，以至于条件类型使其变得更容易。
 
-Conditional types provide us with a way to infer from types we compare against in the true branch using the `infer` keyword.
-For example, we could have inferred the element type in `Flatten` instead of fetching it out "manually" with an indexed access type:
+条件类型为我们提供了一种方式，可以使用 `infer` 关键字从我们在 true 分支中比较的类型中进行推断。
+例如，我们可以在 `Flatten` 中推断元素类型，而不是用索引访问类型"手动"获取它：
 
 ```ts twoslash
 type Flatten<Type> = Type extends Array<infer Item> ? Item : Type;
 ```
 
-Here, we used the `infer` keyword to declaratively introduce a new generic type variable named `Item` instead of specifying how to retrieve the element type of `Type` within the true branch.
-This frees us from having to think about how to dig through and probing apart the structure of the types we're interested in.
+在这里，我们使用 `infer` 关键字以声明的方式引入一个名为 `Item` 的新泛型类型变量，而不是在 true 分支中指定如何检索 `Type` 的元素类型。
+这使我们不必考虑如何深入挖掘和探索我们感兴趣的类型的结构。
 
-We can write some useful helper type aliases using the `infer` keyword.
-For example, for simple cases, we can extract the return type out from function types:
+我们可以使用 `infer` 关键字编写一些有用的辅助类型别名。
+例如，对于简单的情况，我们可以从函数类型中提取返回类型：
 
 ```ts twoslash
 type GetReturnType<Type> = Type extends (...args: never[]) => infer Return
@@ -205,7 +205,7 @@ type Bools = GetReturnType<(a: boolean, b: boolean) => boolean[]>;
 //   ^?
 ```
 
-When inferring from a type with multiple call signatures (such as the type of an overloaded function), inferences are made from the _last_ signature (which, presumably, is the most permissive catch-all case). It is not possible to perform overload resolution based on a list of argument types.
+当从具有多个调用签名的类型（如重载函数的类型）进行推断时，推断是从 _最后一个_ 签名进行的（这可能是最宽松的 catch-all 情况）。无法基于参数类型列表执行重载解析。
 
 ```ts twoslash
 declare function stringOrNum(x: string): number;
@@ -216,16 +216,16 @@ type T1 = ReturnType<typeof stringOrNum>;
 //   ^?
 ```
 
-## Distributive Conditional Types
+## 分布式条件类型
 
-When conditional types act on a generic type, they become _distributive_ when given a union type.
-For example, take the following:
+当条件类型作用于泛型类型时，如果给定一个联合类型，它们就会变成 _分布式_的。
+例如，看看下面的例子：
 
 ```ts twoslash
 type ToArray<Type> = Type extends any ? Type[] : never;
 ```
 
-If we plug a union type into `ToArray`, then the conditional type will be applied to each member of that union.
+如果我们将一个联合类型传入 `ToArray`，则条件类型将应用于该联合的每个成员。
 
 ```ts twoslash
 type ToArray<Type> = Type extends any ? Type[] : never;
@@ -234,7 +234,7 @@ type StrArrOrNumArr = ToArray<string | number>;
 //   ^?
 ```
 
-What happens here is that `ToArray` distributes on:
+这里发生的是 `ToArray` 分布在：
 
 ```ts twoslash
 type StrArrOrNumArr =
@@ -242,7 +242,7 @@ type StrArrOrNumArr =
   string | number;
 ```
 
-and maps over each member type of the union, to what is effectively:
+并映射到联合的每个成员类型上，相当于：
 
 ```ts twoslash
 type ToArray<Type> = Type extends any ? Type[] : never;
@@ -251,7 +251,7 @@ type StrArrOrNumArr =
   ToArray<string> | ToArray<number>;
 ```
 
-which leaves us with:
+最终得到：
 
 ```ts twoslash
 type StrArrOrNumArr =
@@ -259,8 +259,8 @@ type StrArrOrNumArr =
   string[] | number[];
 ```
 
-Typically, distributivity is the desired behavior.
-To avoid that behavior, you can surround each side of the `extends` keyword with square brackets.
+通常，分布性是期望的行为。
+要避免这种行为，你可以用方括号将 `extends` 关键字的每一侧括起来。
 
 ```ts twoslash
 type ToArrayNonDist<Type> = [Type] extends [any] ? Type[] : never;
